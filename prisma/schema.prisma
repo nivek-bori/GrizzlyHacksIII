@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/lib/prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Resource {
+  id             String         @id      @default(uuid())
+  resourceStatus ResourceStatus
+  type           String
+  location       String?
+  time           DateTime?
+  budget         Float
+  url            String?
+  profileId      String
+  status         ResourceStatus
+  profile        Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Profile {
+  id               String            @id @default(uuid())
+  role             Role              @default(ADMIN)
+  email            String            @unique
+  name             String?
+  eventDescription EventDescription?
+  resources        Resource[]
+}
+
+model EventDescription {
+  id         String    @id @default(uuid())
+  profileId  String    @unique
+  location   String?
+  time       DateTime?
+  budget     Float?
+  extraNotes String
+  profile    Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ResourceStatus {
+  SUGGESTED
+  POTENTIAL
+  CHOSEN
+  BOUGHT
+}
