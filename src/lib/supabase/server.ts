@@ -15,10 +15,7 @@ export const createServerSupabaseClient = async () => {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
-        } catch {
-          // Server component calls method
-          // Can be ignored if cookies are updated through middleware
-        }
+        } catch {}
       },
     },
   });

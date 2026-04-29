@@ -23,7 +23,7 @@ export async function request<T>({ type, route, body }: RequestProps): Promise<T
           signal: controller.signal,
           withCredentials: true,
           validateStatus: () => true,
-          data: body,
+          params: body,
         });
         return res;
       }

@@ -36,35 +36,35 @@ export type ResourceSumAggregateOutputType = {
 
 export type ResourceMinAggregateOutputType = {
   id: string | null
-  type: string | null
+  name: string | null
   location: string | null
   time: Date | null
   budget: number | null
   url: string | null
-  profileId: string | null
   status: $Enums.ResourceStatus | null
+  resourceTypeId: string | null
 }
 
 export type ResourceMaxAggregateOutputType = {
   id: string | null
-  type: string | null
+  name: string | null
   location: string | null
   time: Date | null
   budget: number | null
   url: string | null
-  profileId: string | null
   status: $Enums.ResourceStatus | null
+  resourceTypeId: string | null
 }
 
 export type ResourceCountAggregateOutputType = {
   id: number
-  type: number
+  name: number
   location: number
   time: number
   budget: number
   url: number
-  profileId: number
   status: number
+  resourceTypeId: number
   _all: number
 }
 
@@ -79,35 +79,35 @@ export type ResourceSumAggregateInputType = {
 
 export type ResourceMinAggregateInputType = {
   id?: true
-  type?: true
+  name?: true
   location?: true
   time?: true
   budget?: true
   url?: true
-  profileId?: true
   status?: true
+  resourceTypeId?: true
 }
 
 export type ResourceMaxAggregateInputType = {
   id?: true
-  type?: true
+  name?: true
   location?: true
   time?: true
   budget?: true
   url?: true
-  profileId?: true
   status?: true
+  resourceTypeId?: true
 }
 
 export type ResourceCountAggregateInputType = {
   id?: true
-  type?: true
+  name?: true
   location?: true
   time?: true
   budget?: true
   url?: true
-  profileId?: true
   status?: true
+  resourceTypeId?: true
   _all?: true
 }
 
@@ -199,13 +199,13 @@ export type ResourceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type ResourceGroupByOutputType = {
   id: string
-  type: string
+  name: string
   location: string | null
   time: Date | null
   budget: number
   url: string | null
-  profileId: string
   status: $Enums.ResourceStatus
+  resourceTypeId: string
   _count: ResourceCountAggregateOutputType | null
   _avg: ResourceAvgAggregateOutputType | null
   _sum: ResourceSumAggregateOutputType | null
@@ -233,26 +233,26 @@ export type ResourceWhereInput = {
   OR?: Prisma.ResourceWhereInput[]
   NOT?: Prisma.ResourceWhereInput | Prisma.ResourceWhereInput[]
   id?: Prisma.StringFilter<"Resource"> | string
-  type?: Prisma.StringFilter<"Resource"> | string
+  name?: Prisma.StringFilter<"Resource"> | string
   location?: Prisma.StringNullableFilter<"Resource"> | string | null
   time?: Prisma.DateTimeNullableFilter<"Resource"> | Date | string | null
   budget?: Prisma.FloatFilter<"Resource"> | number
   url?: Prisma.StringNullableFilter<"Resource"> | string | null
-  profileId?: Prisma.StringFilter<"Resource"> | string
   status?: Prisma.EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
+  resourceTypeId?: Prisma.StringFilter<"Resource"> | string
+  resourceType?: Prisma.XOR<Prisma.ResourceTypeScalarRelationFilter, Prisma.ResourceTypeWhereInput>
 }
 
 export type ResourceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
   budget?: Prisma.SortOrder
   url?: Prisma.SortOrderInput | Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  profile?: Prisma.ProfileOrderByWithRelationInput
+  resourceTypeId?: Prisma.SortOrder
+  resourceType?: Prisma.ResourceTypeOrderByWithRelationInput
 }
 
 export type ResourceWhereUniqueInput = Prisma.AtLeast<{
@@ -260,25 +260,25 @@ export type ResourceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ResourceWhereInput | Prisma.ResourceWhereInput[]
   OR?: Prisma.ResourceWhereInput[]
   NOT?: Prisma.ResourceWhereInput | Prisma.ResourceWhereInput[]
-  type?: Prisma.StringFilter<"Resource"> | string
+  name?: Prisma.StringFilter<"Resource"> | string
   location?: Prisma.StringNullableFilter<"Resource"> | string | null
   time?: Prisma.DateTimeNullableFilter<"Resource"> | Date | string | null
   budget?: Prisma.FloatFilter<"Resource"> | number
   url?: Prisma.StringNullableFilter<"Resource"> | string | null
-  profileId?: Prisma.StringFilter<"Resource"> | string
   status?: Prisma.EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
-  profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
+  resourceTypeId?: Prisma.StringFilter<"Resource"> | string
+  resourceType?: Prisma.XOR<Prisma.ResourceTypeScalarRelationFilter, Prisma.ResourceTypeWhereInput>
 }, "id">
 
 export type ResourceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
   budget?: Prisma.SortOrder
   url?: Prisma.SortOrderInput | Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  resourceTypeId?: Prisma.SortOrder
   _count?: Prisma.ResourceCountOrderByAggregateInput
   _avg?: Prisma.ResourceAvgOrderByAggregateInput
   _max?: Prisma.ResourceMaxOrderByAggregateInput
@@ -291,73 +291,73 @@ export type ResourceScalarWhereWithAggregatesInput = {
   OR?: Prisma.ResourceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ResourceScalarWhereWithAggregatesInput | Prisma.ResourceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Resource"> | string
-  type?: Prisma.StringWithAggregatesFilter<"Resource"> | string
+  name?: Prisma.StringWithAggregatesFilter<"Resource"> | string
   location?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
   time?: Prisma.DateTimeNullableWithAggregatesFilter<"Resource"> | Date | string | null
   budget?: Prisma.FloatWithAggregatesFilter<"Resource"> | number
   url?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
-  profileId?: Prisma.StringWithAggregatesFilter<"Resource"> | string
   status?: Prisma.EnumResourceStatusWithAggregatesFilter<"Resource"> | $Enums.ResourceStatus
+  resourceTypeId?: Prisma.StringWithAggregatesFilter<"Resource"> | string
 }
 
 export type ResourceCreateInput = {
   id?: string
-  type: string
+  name: string
   location?: string | null
   time?: Date | string | null
   budget: number
   url?: string | null
   status: $Enums.ResourceStatus
-  profile: Prisma.ProfileCreateNestedOneWithoutResourcesInput
+  resourceType: Prisma.ResourceTypeCreateNestedOneWithoutResourcesInput
 }
 
 export type ResourceUncheckedCreateInput = {
   id?: string
-  type: string
+  name: string
   location?: string | null
   time?: Date | string | null
   budget: number
   url?: string | null
-  profileId: string
   status: $Enums.ResourceStatus
+  resourceTypeId: string
 }
 
 export type ResourceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
-  profile?: Prisma.ProfileUpdateOneRequiredWithoutResourcesNestedInput
+  resourceType?: Prisma.ResourceTypeUpdateOneRequiredWithoutResourcesNestedInput
 }
 
 export type ResourceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profileId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+  resourceTypeId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ResourceCreateManyInput = {
   id?: string
-  type: string
+  name: string
   location?: string | null
   time?: Date | string | null
   budget: number
   url?: string | null
-  profileId: string
   status: $Enums.ResourceStatus
+  resourceTypeId: string
 }
 
 export type ResourceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -367,24 +367,24 @@ export type ResourceUpdateManyMutationInput = {
 
 export type ResourceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profileId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+  resourceTypeId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ResourceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   url?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  resourceTypeId?: Prisma.SortOrder
 }
 
 export type ResourceAvgOrderByAggregateInput = {
@@ -393,24 +393,24 @@ export type ResourceAvgOrderByAggregateInput = {
 
 export type ResourceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   url?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  resourceTypeId?: Prisma.SortOrder
 }
 
 export type ResourceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   url?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  resourceTypeId?: Prisma.SortOrder
 }
 
 export type ResourceSumOrderByAggregateInput = {
@@ -451,51 +451,51 @@ export type EnumResourceStatusFieldUpdateOperationsInput = {
   set?: $Enums.ResourceStatus
 }
 
-export type ResourceCreateNestedManyWithoutProfileInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutProfileInput, Prisma.ResourceUncheckedCreateWithoutProfileInput> | Prisma.ResourceCreateWithoutProfileInput[] | Prisma.ResourceUncheckedCreateWithoutProfileInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutProfileInput | Prisma.ResourceCreateOrConnectWithoutProfileInput[]
-  createMany?: Prisma.ResourceCreateManyProfileInputEnvelope
+export type ResourceCreateNestedManyWithoutResourceTypeInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceTypeInput, Prisma.ResourceUncheckedCreateWithoutResourceTypeInput> | Prisma.ResourceCreateWithoutResourceTypeInput[] | Prisma.ResourceUncheckedCreateWithoutResourceTypeInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceTypeInput | Prisma.ResourceCreateOrConnectWithoutResourceTypeInput[]
+  createMany?: Prisma.ResourceCreateManyResourceTypeInputEnvelope
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
 }
 
-export type ResourceUncheckedCreateNestedManyWithoutProfileInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutProfileInput, Prisma.ResourceUncheckedCreateWithoutProfileInput> | Prisma.ResourceCreateWithoutProfileInput[] | Prisma.ResourceUncheckedCreateWithoutProfileInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutProfileInput | Prisma.ResourceCreateOrConnectWithoutProfileInput[]
-  createMany?: Prisma.ResourceCreateManyProfileInputEnvelope
+export type ResourceUncheckedCreateNestedManyWithoutResourceTypeInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceTypeInput, Prisma.ResourceUncheckedCreateWithoutResourceTypeInput> | Prisma.ResourceCreateWithoutResourceTypeInput[] | Prisma.ResourceUncheckedCreateWithoutResourceTypeInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceTypeInput | Prisma.ResourceCreateOrConnectWithoutResourceTypeInput[]
+  createMany?: Prisma.ResourceCreateManyResourceTypeInputEnvelope
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
 }
 
-export type ResourceUpdateManyWithoutProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutProfileInput, Prisma.ResourceUncheckedCreateWithoutProfileInput> | Prisma.ResourceCreateWithoutProfileInput[] | Prisma.ResourceUncheckedCreateWithoutProfileInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutProfileInput | Prisma.ResourceCreateOrConnectWithoutProfileInput[]
-  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutProfileInput | Prisma.ResourceUpsertWithWhereUniqueWithoutProfileInput[]
-  createMany?: Prisma.ResourceCreateManyProfileInputEnvelope
+export type ResourceUpdateManyWithoutResourceTypeNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceTypeInput, Prisma.ResourceUncheckedCreateWithoutResourceTypeInput> | Prisma.ResourceCreateWithoutResourceTypeInput[] | Prisma.ResourceUncheckedCreateWithoutResourceTypeInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceTypeInput | Prisma.ResourceCreateOrConnectWithoutResourceTypeInput[]
+  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutResourceTypeInput | Prisma.ResourceUpsertWithWhereUniqueWithoutResourceTypeInput[]
+  createMany?: Prisma.ResourceCreateManyResourceTypeInputEnvelope
   set?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   disconnect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   delete?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
-  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutProfileInput | Prisma.ResourceUpdateWithWhereUniqueWithoutProfileInput[]
-  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutProfileInput | Prisma.ResourceUpdateManyWithWhereWithoutProfileInput[]
+  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutResourceTypeInput | Prisma.ResourceUpdateWithWhereUniqueWithoutResourceTypeInput[]
+  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutResourceTypeInput | Prisma.ResourceUpdateManyWithWhereWithoutResourceTypeInput[]
   deleteMany?: Prisma.ResourceScalarWhereInput | Prisma.ResourceScalarWhereInput[]
 }
 
-export type ResourceUncheckedUpdateManyWithoutProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutProfileInput, Prisma.ResourceUncheckedCreateWithoutProfileInput> | Prisma.ResourceCreateWithoutProfileInput[] | Prisma.ResourceUncheckedCreateWithoutProfileInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutProfileInput | Prisma.ResourceCreateOrConnectWithoutProfileInput[]
-  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutProfileInput | Prisma.ResourceUpsertWithWhereUniqueWithoutProfileInput[]
-  createMany?: Prisma.ResourceCreateManyProfileInputEnvelope
+export type ResourceUncheckedUpdateManyWithoutResourceTypeNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceTypeInput, Prisma.ResourceUncheckedCreateWithoutResourceTypeInput> | Prisma.ResourceCreateWithoutResourceTypeInput[] | Prisma.ResourceUncheckedCreateWithoutResourceTypeInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceTypeInput | Prisma.ResourceCreateOrConnectWithoutResourceTypeInput[]
+  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutResourceTypeInput | Prisma.ResourceUpsertWithWhereUniqueWithoutResourceTypeInput[]
+  createMany?: Prisma.ResourceCreateManyResourceTypeInputEnvelope
   set?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   disconnect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   delete?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
-  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutProfileInput | Prisma.ResourceUpdateWithWhereUniqueWithoutProfileInput[]
-  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutProfileInput | Prisma.ResourceUpdateManyWithWhereWithoutProfileInput[]
+  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutResourceTypeInput | Prisma.ResourceUpdateWithWhereUniqueWithoutResourceTypeInput[]
+  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutResourceTypeInput | Prisma.ResourceUpdateManyWithWhereWithoutResourceTypeInput[]
   deleteMany?: Prisma.ResourceScalarWhereInput | Prisma.ResourceScalarWhereInput[]
 }
 
-export type ResourceCreateWithoutProfileInput = {
+export type ResourceCreateWithoutResourceTypeInput = {
   id?: string
-  type: string
+  name: string
   location?: string | null
   time?: Date | string | null
   budget: number
@@ -503,9 +503,9 @@ export type ResourceCreateWithoutProfileInput = {
   status: $Enums.ResourceStatus
 }
 
-export type ResourceUncheckedCreateWithoutProfileInput = {
+export type ResourceUncheckedCreateWithoutResourceTypeInput = {
   id?: string
-  type: string
+  name: string
   location?: string | null
   time?: Date | string | null
   budget: number
@@ -513,30 +513,30 @@ export type ResourceUncheckedCreateWithoutProfileInput = {
   status: $Enums.ResourceStatus
 }
 
-export type ResourceCreateOrConnectWithoutProfileInput = {
+export type ResourceCreateOrConnectWithoutResourceTypeInput = {
   where: Prisma.ResourceWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutProfileInput, Prisma.ResourceUncheckedCreateWithoutProfileInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceTypeInput, Prisma.ResourceUncheckedCreateWithoutResourceTypeInput>
 }
 
-export type ResourceCreateManyProfileInputEnvelope = {
-  data: Prisma.ResourceCreateManyProfileInput | Prisma.ResourceCreateManyProfileInput[]
+export type ResourceCreateManyResourceTypeInputEnvelope = {
+  data: Prisma.ResourceCreateManyResourceTypeInput | Prisma.ResourceCreateManyResourceTypeInput[]
   skipDuplicates?: boolean
 }
 
-export type ResourceUpsertWithWhereUniqueWithoutProfileInput = {
+export type ResourceUpsertWithWhereUniqueWithoutResourceTypeInput = {
   where: Prisma.ResourceWhereUniqueInput
-  update: Prisma.XOR<Prisma.ResourceUpdateWithoutProfileInput, Prisma.ResourceUncheckedUpdateWithoutProfileInput>
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutProfileInput, Prisma.ResourceUncheckedCreateWithoutProfileInput>
+  update: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceTypeInput, Prisma.ResourceUncheckedUpdateWithoutResourceTypeInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceTypeInput, Prisma.ResourceUncheckedCreateWithoutResourceTypeInput>
 }
 
-export type ResourceUpdateWithWhereUniqueWithoutProfileInput = {
+export type ResourceUpdateWithWhereUniqueWithoutResourceTypeInput = {
   where: Prisma.ResourceWhereUniqueInput
-  data: Prisma.XOR<Prisma.ResourceUpdateWithoutProfileInput, Prisma.ResourceUncheckedUpdateWithoutProfileInput>
+  data: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceTypeInput, Prisma.ResourceUncheckedUpdateWithoutResourceTypeInput>
 }
 
-export type ResourceUpdateManyWithWhereWithoutProfileInput = {
+export type ResourceUpdateManyWithWhereWithoutResourceTypeInput = {
   where: Prisma.ResourceScalarWhereInput
-  data: Prisma.XOR<Prisma.ResourceUpdateManyMutationInput, Prisma.ResourceUncheckedUpdateManyWithoutProfileInput>
+  data: Prisma.XOR<Prisma.ResourceUpdateManyMutationInput, Prisma.ResourceUncheckedUpdateManyWithoutResourceTypeInput>
 }
 
 export type ResourceScalarWhereInput = {
@@ -544,18 +544,18 @@ export type ResourceScalarWhereInput = {
   OR?: Prisma.ResourceScalarWhereInput[]
   NOT?: Prisma.ResourceScalarWhereInput | Prisma.ResourceScalarWhereInput[]
   id?: Prisma.StringFilter<"Resource"> | string
-  type?: Prisma.StringFilter<"Resource"> | string
+  name?: Prisma.StringFilter<"Resource"> | string
   location?: Prisma.StringNullableFilter<"Resource"> | string | null
   time?: Prisma.DateTimeNullableFilter<"Resource"> | Date | string | null
   budget?: Prisma.FloatFilter<"Resource"> | number
   url?: Prisma.StringNullableFilter<"Resource"> | string | null
-  profileId?: Prisma.StringFilter<"Resource"> | string
   status?: Prisma.EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
+  resourceTypeId?: Prisma.StringFilter<"Resource"> | string
 }
 
-export type ResourceCreateManyProfileInput = {
+export type ResourceCreateManyResourceTypeInput = {
   id?: string
-  type: string
+  name: string
   location?: string | null
   time?: Date | string | null
   budget: number
@@ -563,9 +563,9 @@ export type ResourceCreateManyProfileInput = {
   status: $Enums.ResourceStatus
 }
 
-export type ResourceUpdateWithoutProfileInput = {
+export type ResourceUpdateWithoutResourceTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -573,9 +573,9 @@ export type ResourceUpdateWithoutProfileInput = {
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
 }
 
-export type ResourceUncheckedUpdateWithoutProfileInput = {
+export type ResourceUncheckedUpdateWithoutResourceTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -583,9 +583,9 @@ export type ResourceUncheckedUpdateWithoutProfileInput = {
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
 }
 
-export type ResourceUncheckedUpdateManyWithoutProfileInput = {
+export type ResourceUncheckedUpdateManyWithoutResourceTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -597,76 +597,76 @@ export type ResourceUncheckedUpdateManyWithoutProfileInput = {
 
 export type ResourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
+  name?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   url?: boolean
-  profileId?: boolean
   status?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  resourceTypeId?: boolean
+  resourceType?: boolean | Prisma.ResourceTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
 export type ResourceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
+  name?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   url?: boolean
-  profileId?: boolean
   status?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  resourceTypeId?: boolean
+  resourceType?: boolean | Prisma.ResourceTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
 export type ResourceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
+  name?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   url?: boolean
-  profileId?: boolean
   status?: boolean
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  resourceTypeId?: boolean
+  resourceType?: boolean | Prisma.ResourceTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
 export type ResourceSelectScalar = {
   id?: boolean
-  type?: boolean
+  name?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   url?: boolean
-  profileId?: boolean
   status?: boolean
+  resourceTypeId?: boolean
 }
 
-export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "location" | "time" | "budget" | "url" | "profileId" | "status", ExtArgs["result"]["resource"]>
+export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "location" | "time" | "budget" | "url" | "status" | "resourceTypeId", ExtArgs["result"]["resource"]>
 export type ResourceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  resourceType?: boolean | Prisma.ResourceTypeDefaultArgs<ExtArgs>
 }
 export type ResourceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  resourceType?: boolean | Prisma.ResourceTypeDefaultArgs<ExtArgs>
 }
 export type ResourceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
+  resourceType?: boolean | Prisma.ResourceTypeDefaultArgs<ExtArgs>
 }
 
 export type $ResourcePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Resource"
   objects: {
-    profile: Prisma.$ProfilePayload<ExtArgs>
+    resourceType: Prisma.$ResourceTypePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    type: string
+    name: string
     location: string | null
     time: Date | null
     budget: number
     url: string | null
-    profileId: string
     status: $Enums.ResourceStatus
+    resourceTypeId: string
   }, ExtArgs["result"]["resource"]>
   composites: {}
 }
@@ -1061,7 +1061,7 @@ readonly fields: ResourceFieldRefs;
  */
 export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profile<T extends Prisma.ProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  resourceType<T extends Prisma.ResourceTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__ResourceTypeClient<runtime.Types.Result.GetResult<Prisma.$ResourceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1092,13 +1092,13 @@ export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends runtime
  */
 export interface ResourceFieldRefs {
   readonly id: Prisma.FieldRef<"Resource", 'String'>
-  readonly type: Prisma.FieldRef<"Resource", 'String'>
+  readonly name: Prisma.FieldRef<"Resource", 'String'>
   readonly location: Prisma.FieldRef<"Resource", 'String'>
   readonly time: Prisma.FieldRef<"Resource", 'DateTime'>
   readonly budget: Prisma.FieldRef<"Resource", 'Float'>
   readonly url: Prisma.FieldRef<"Resource", 'String'>
-  readonly profileId: Prisma.FieldRef<"Resource", 'String'>
   readonly status: Prisma.FieldRef<"Resource", 'ResourceStatus'>
+  readonly resourceTypeId: Prisma.FieldRef<"Resource", 'String'>
 }
     
 

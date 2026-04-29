@@ -40,8 +40,9 @@ export async function getUserServer(request: Request) {
   const supabase = await createServerSupabaseClient();
 
   const { data: { user }, error } = await supabase.auth.getUser();
-
+  
   if (error || !user) {
+    console.log(`getUserServer error`, error, user);
     return {
       user: null,
       response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

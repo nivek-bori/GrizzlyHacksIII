@@ -54,7 +54,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         withCredentials: true,
         headers: { Authorization: `Bearer ${currSession?.access_token}` },
       });
-      console.log(`testing`, res);
 
       if (res.data && res.data.profile) {
         return res.data.profile

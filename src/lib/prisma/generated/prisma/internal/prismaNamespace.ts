@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Resource: 'Resource',
+  ResourceType: 'ResourceType',
   Profile: 'Profile',
   EventDescription: 'EventDescription'
 } as const
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "resource" | "profile" | "eventDescription"
+    modelProps: "resource" | "resourceType" | "profile" | "eventDescription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -477,6 +478,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ResourceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ResourceCountAggregateOutputType> | number
+        }
+      }
+    }
+    ResourceType: {
+      payload: Prisma.$ResourceTypePayload<ExtArgs>
+      fields: Prisma.ResourceTypeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ResourceTypeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ResourceTypeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>
+        }
+        findFirst: {
+          args: Prisma.ResourceTypeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ResourceTypeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>
+        }
+        findMany: {
+          args: Prisma.ResourceTypeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>[]
+        }
+        create: {
+          args: Prisma.ResourceTypeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>
+        }
+        createMany: {
+          args: Prisma.ResourceTypeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ResourceTypeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>[]
+        }
+        delete: {
+          args: Prisma.ResourceTypeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>
+        }
+        update: {
+          args: Prisma.ResourceTypeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>
+        }
+        deleteMany: {
+          args: Prisma.ResourceTypeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ResourceTypeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ResourceTypeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>[]
+        }
+        upsert: {
+          args: Prisma.ResourceTypeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceTypePayload>
+        }
+        aggregate: {
+          args: Prisma.ResourceTypeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateResourceType>
+        }
+        groupBy: {
+          args: Prisma.ResourceTypeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResourceTypeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ResourceTypeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResourceTypeCountAggregateOutputType> | number
         }
       }
     }
@@ -669,16 +744,25 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const ResourceScalarFieldEnum = {
   id: 'id',
-  type: 'type',
+  name: 'name',
   location: 'location',
   time: 'time',
   budget: 'budget',
   url: 'url',
-  profileId: 'profileId',
-  status: 'status'
+  status: 'status',
+  resourceTypeId: 'resourceTypeId'
 } as const
 
 export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
+
+
+export const ResourceTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  profileId: 'profileId'
+} as const
+
+export type ResourceTypeScalarFieldEnum = (typeof ResourceTypeScalarFieldEnum)[keyof typeof ResourceTypeScalarFieldEnum]
 
 
 export const ProfileScalarFieldEnum = {
@@ -927,6 +1011,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   resource?: Prisma.ResourceOmit
+  resourceType?: Prisma.ResourceTypeOmit
   profile?: Prisma.ProfileOmit
   eventDescription?: Prisma.EventDescriptionOmit
 }

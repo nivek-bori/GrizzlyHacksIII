@@ -4,7 +4,9 @@ import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import NotificationProvider from "@/components/notification/NotificationProvider";
 import AuthProtecter from "@/components/auth/AuthProtector";
+import DataProviderComponent from "@/components/DataProviderComponent";
 import Script from "next/script";
+import { bg_gray } from "@/types/styles";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,15 +31,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full w-full antialiased bg-white`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full w-full antialiased ${bg_gray}`}
     >
       <body className="w-full h-full flex flex-col">
         <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
         <NotificationProvider>
           <AuthProvider>
-            <AuthProtecter>
-              {children}
-            </AuthProtecter>
+            <DataProviderComponent>
+              <AuthProtecter>
+                {children}
+              </AuthProtecter>
+            </DataProviderComponent>
           </AuthProvider>
         </NotificationProvider>
       </body>

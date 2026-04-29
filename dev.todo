@@ -1,10 +1,39 @@
-Frontend:
-  ▫ Design front end
+▫ change standard rem value to be a little larger
 
 Backend:
+  ▫ API
+    ▫ check that db api requests have cookies added on: test as of now, add cookies if unsuccessful
   ▫ Database (kevin)
-    ▫ add status to profile.resources?
   ▫ AI API (andy)
     ▫ Search for resources
     ▫ Suggest resource types
 
+Code that needs to be completed:
+  ▫ Front end
+    ▫ Each component should have a div with "w-full h-full" wrapping it. Add whatever else inside this div
+    ▫ Just trust that the components will get the right data as parameters. Kevin will handle the database and dataflow.
+    
+    ▫ call_to_action_component (upper left)
+      ▫ Gradient background
+      ▫ Big bold text in front
+    ▫ event_description_component (upper right)
+      ▫ multiple input fields for differen types
+      ▫ on submit, call this function, which will connect to the backend
+        import { EventDescription } from "@/lib/prisma/generated/prisma/client";  // look at schema.prisma for the type infromation
+        function onSubmit(eventDescription: EventDescription) {}
+    ▫ todolist_component (bottom left)
+      ✔ resource_type_component @done(26-04-26 19:16)
+        ✔ when closed, just show the resouce type @done(26-04-26 19:16)
+        ✔ when opened, show a list of potential_resource_components @done(26-04-26 19:16)
+      ✔ potential_resource_component @done(26-04-26 19:17)
+        ✔ display information @done(26-04-26 21:05)
+        ✔ allow user to select: potential, chosen, or bought @done(26-04-26 21:05)
+        ▫ allow user to delete resource
+        ▫ additional information field
+    ▫ resource_list_component (bottom right)
+      ▫ resource_component/
+        ▫ display resource information
+        ▫ have bookmark button & call this function onClick
+      ▫ resource_search_component:allow people to search resoruce by name using ai
+        ▫ andy has the code for this in this AI API
+        

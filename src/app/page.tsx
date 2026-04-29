@@ -1,18 +1,19 @@
-import TodolistComponent from "../components/todolist/TodolistComponent";
-import SearchComponent from "../components/search/SearchComponent";
+import TodolistComponent from "../components/todolist/todolist_component";
+import SearchComponent from "../components/search/search_component";
+import DoubleScreen from "@/components/ui/DoubleScreen";
+import CTAComponent from "@/components/cta/CTA_component";
+import HorizontalSplit from "@/components/ui/HorizontalSplit";
+import EventDescriptionComponent from "@/components/event_description/event_description_component";
 
 export default function Home() {
   return (
-    <div className="relative min-h-0 w-full flex-1 overflow-hidden">
-      {/* left half */}
-      <div className={`absolute inset-y-0 z-10 flex w-1/2 min-h-0 flex-col overflow-hidden`}>
-        <TodolistComponent />
-      </div>
-      
-      {/* right half */}
-      <div className="absolute inset-y-0 right-0 z-0 flex w-1/2 min-h-0 flex-col overflow-hidden">
-        <SearchComponent />
-      </div>
-    </div>
+    <DoubleScreen
+      top={
+        <HorizontalSplit left={< CTAComponent />} right={<EventDescriptionComponent />} />
+      }
+      bottom={
+        <HorizontalSplit left={< TodolistComponent />} right={<SearchComponent />} />
+      }
+    />
   )
 }

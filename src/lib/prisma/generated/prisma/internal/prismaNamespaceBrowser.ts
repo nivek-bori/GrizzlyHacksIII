@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Resource: 'Resource',
+  ResourceType: 'ResourceType',
   Profile: 'Profile',
   EventDescription: 'EventDescription'
 } as const
@@ -74,16 +75,25 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const ResourceScalarFieldEnum = {
   id: 'id',
-  type: 'type',
+  name: 'name',
   location: 'location',
   time: 'time',
   budget: 'budget',
   url: 'url',
-  profileId: 'profileId',
-  status: 'status'
+  status: 'status',
+  resourceTypeId: 'resourceTypeId'
 } as const
 
 export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
+
+
+export const ResourceTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  profileId: 'profileId'
+} as const
+
+export type ResourceTypeScalarFieldEnum = (typeof ResourceTypeScalarFieldEnum)[keyof typeof ResourceTypeScalarFieldEnum]
 
 
 export const ProfileScalarFieldEnum = {

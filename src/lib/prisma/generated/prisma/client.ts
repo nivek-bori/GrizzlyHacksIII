@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type Resource = Prisma.ResourceModel
 /**
+ * Model ResourceType
+ * 
+ */
+export type ResourceType = Prisma.ResourceTypeModel
+/**
  * Model Profile
  * 
  */

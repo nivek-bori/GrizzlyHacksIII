@@ -1,3 +1,5 @@
+import { Resource, ResourceStatus, ResourceType } from "@/lib/prisma/generated/prisma/client";
+
 export function cn(...classes: Array<string | false | null | undefined>): string {
   return classes.filter(Boolean).join(' ');
 }
@@ -24,3 +26,11 @@ export function isAuthorized(currentRole?: string | null, requiredRole?: string 
   const required = normalizeRole(requiredRole);
   return roleRank[current] >= roleRank[required];
 }
+
+export type RelationalResourceType = ResourceType & {
+  resources?: Resource[];
+}
+
+export type VisibleResourceStatus = 'POTENTIAL' | 'CHOSEN' | 'BOUGHT';
+
+export type Changes = Record<string, Record<string, any>>;

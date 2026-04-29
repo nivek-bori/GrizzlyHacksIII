@@ -9,24 +9,31 @@ datasource db {
 
 model Resource {
   id             String         @id      @default(uuid())
-  resourceStatus ResourceStatus
-  type           String
+  name           String
   location       String?
   time           DateTime?
   budget         Float
   url            String?
-  profileId      String
   status         ResourceStatus
-  profile        Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  resourceTypeId String
+  resourceType   ResourceType   @relation(fields: [resourceTypeId], references: [id], onDelete: Cascade)
+}
+
+model ResourceType {
+  id        String     @id @default(uuid())
+  name      String
+  profileId String
+  profile   Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  resources Resource[]
 }
 
 model Profile {
-  id               String            @id @default(uuid())
-  role             Role              @default(ADMIN)
-  email            String            @unique
+  id               String         @id @default(uuid())
+  role             Role           @default(ADMIN)
+  email            String         @unique
   name             String?
   eventDescription EventDescription?
-  resources        Resource[]
+  resourceTypes    ResourceType[]
 }
 
 model EventDescription {

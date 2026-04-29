@@ -9,6 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Resource'
+export type * from './models/ResourceType'
 export type * from './models/Profile'
 export type * from './models/EventDescription'
 export type * from './commonInputTypes'
