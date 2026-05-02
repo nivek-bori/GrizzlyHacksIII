@@ -15,8 +15,13 @@ export async function findResources(
     return { resourceTypes: [] };
   }
 
+  const trimmedInfo = information.trim();
+  if (!trimmedInfo) {
+    return { resourceTypes: [] };
+  }
+
   const prompt = getFindResourcesPrompt(
-    information,
+    trimmedInfo,
     stringifyEventDescriptor(eventDescription),
     existingResources,
     allowedNames
@@ -34,28 +39,34 @@ function getFindResourcesPrompt(
   allowedResourceTypeNames: string[]
 ) {
   const instructions = [
-    "You are a meticulous accessibility-aware procurement researcher for event planning workflows.",
+    "You are a accessibility-aware procurement researcher for event planning workflows.",
     "",
     "## Allowed resource types only (critical)",
     "The planner has ALREADY defined resource-type buckets on their profile. You may ONLY output parent groups whose `name` is copied EXACTLY (same spelling and casing) from ALLOWED_RESOURCE_TYPE_NAMES.",
     "Do NOT invent new category labels. Do NOT rename, merge, split, or synonym-substitute allowed types. Do NOT output groups for event needs that fall outside that list—omit them.",
     "",
-    "## Tools",
-    "When WEB SEARCH runs, prioritize primary vendor or provider pages, authoritative municipal / campus accessibility pages, and reputable nonprofits. Prefer URLs you can verify resolve (no fabricated domains—if uncertain, omit the url field entirely). Avoid obvious aggregators riddled with dead links.",
+    "## USER_INFORMATION drives scope (critical)",
+    "Center your search on USER_INFORMATION. You may use ordinary judgment to interpret intent (synonyms, implied needs, typical suppliers for that ask) as long as it stays on-topic—do not launch unrelated event workstreams.",
+    "EVENT_JSON helps you narrow place, time, budget, and tone. You may combine USER_INFORMATION with EVENT_JSON to make reasonable inferences (e.g. local vendors for the stated city) when those inferences are likely correct.",
+    "Among ALLOWED_RESOURCE_TYPE_NAMES, include groups that USER_INFORMATION reasonably maps to—use sensible judgment when the wording is shorthand or ambiguous; omit types that are clearly irrelevant.",
     "",
-    "## No hallucination — unknowns stay blank",
-    "Never invent vendors, people, addresses, phone numbers, dates, prices, capacities, or URLs. Every `name` must correspond to a real, verifiable entity from search or clear public knowledge tied to the event context.",
-    "If you do not know a value, leave it absent of fabrication: use `null` for `location`, `time`, and `url` when not confidently known or verifiable. Do not fill gaps with plausible-sounding placeholders.",
-    "For `budget`: only use a positive number when you have a defensible estimate from a cited or clearly matching source; otherwise use `0` (do not guess a quote to look complete).",
-    "If you cannot honestly list resources for a category after search, use an empty `resources` array for that group or omit marginal entries—sparse output is correct.",
+    "## Tools",
+    "When WEB SEARCH runs, prioritize primary vendor or provider pages, authoritative municipal / campus accessibility pages, and reputable nonprofits. Prefer URLs that resolve; official domains for well-known organizations may be included when highly likely correct. Avoid obvious aggregators riddled with dead links.",
+    "",
+    "## Educated guesses — allowed when grounded",
+    "You MAY make decent, good-faith educated guesses when they are probably accurate: inferring region from context, typical price order-of-magnitude for a service, or likely dates aligned with USER_INFORMATION / EVENT_JSON.",
+    "Prefer verifiable picks from web search. When evidence is thin but the conclusion is still reasonable (e.g. a major national vendor with a standard booking page in the right city), you may include it rather than returning nothing.",
+    "Still avoid obvious fabrication: do not invent fake company names, fake street addresses, or random phone numbers. Use `null` for `location`, `time`, and `url` when you truly have no decent basis.",
+    "For `budget`: you may use a rough realistic estimate or band when grounded in comparable listings or event scale; use `0` only when you have no reasonable basis at all.",
+    "If a category has no decent candidates even after search, prefer an empty `resources` array over wild guesses.",
     "",
     "## Output shape",
-    "Return JSON exactly matching schema: grouped `resourceTypes` array. Each leaf resource needs at minimum `name` plus truthful optional `location`, ISO-8601 `time` STRING or null when a single concrete occurrence is identifiable, plausible non-negative numeric `budget` (rough quote or starter estimate in USD unless location clearly implies another currency—in that case annotate currency in prose inside `location`/`name` sparingly AND keep numeric budget proportional), optional `url` when verified credible.",
+    "Return JSON exactly matching schema: grouped `resourceTypes` array. Each leaf resource needs at minimum `name` plus optional `location`, ISO-8601 `time` STRING or null when identifiable or reasonably inferred, non-negative numeric `budget` (estimates and educated guesses allowed when plausible; annotate currency in prose inside `location`/`name` if not USD), optional `url` when credible or highly likely official.",
     "",
     "## Constraints",
-    "Parent group `name` fields MUST be verbatim copies from ALLOWED_RESOURCE_TYPE_NAMES. OPTIONAL_INFORMATION only narrows what to search for inside those existing buckets—it must NOT introduce new parent categories.",
-    "Ground recommendations in EVENT_JSON (budget/time/notes). Do not hallucinate astronomical capacity or timelines contradicting planner detail.",
-    "DE-DUPLICATE against PREVIOUS_RESOURCES: never reinvent the same operational option (consider name + canonical url). Aim for substantive variety—up to 3–5 distinct resources per allowed category you were able to verify (fewer is fine).",
+    "Parent group `name` fields MUST be verbatim copies from ALLOWED_RESOURCE_TYPE_NAMES and should match types USER_INFORMATION reasonably concerns.",
+    "Avoid absurd capacity or dates; when USER_INFORMATION and EVENT_JSON conflict, favor a coherent reading of what the user asked.",
+    "DE-DUPLICATE against PREVIOUS_RESOURCES: never reinvent the same operational option (consider name + canonical url). Aim for substantive variety—up to 3–5 distinct resources per included category (fewer is fine).",
     "",
     "## Quality bars",
     "Names must distinguish vendors clearly. Locations should be plausible for the inferred geography.",
@@ -68,27 +79,24 @@ function getFindResourcesPrompt(
       ? existingResources.map((resource) => `- ${resource.name}${resource.url ? ` (${resource.url})` : ""}`)
       : "(none)";
   const allowedBlock = allowedResourceTypeNames.map((name, i) => `${i + 1}. ${name}`).join("\n");
-  const focusList =
-    information.trim().length > 0
-      ? information.trim()
-      : "(none—search across every allowed type as relevant to EVENT_JSON; still only use parent names from ALLOWED_RESOURCE_TYPE_NAMES)";
 
   const input = [
     "## ALLOWED_RESOURCE_TYPE_NAMES",
-    "Use these strings EXACTLY as each group `name` (no extras):",
+    "Use these strings EXACTLY as each group `name` (no extras). Include a group when USER_INFORMATION reasonably calls for that kind of resource.",
     allowedBlock,
     "",
-    "## OPTIONAL_INFORMATION",
-    focusList,
+    "## USER_INFORMATION",
+    information.trim(),
     "",
     "## EVENT_JSON",
+    "(Use with USER_INFORMATION for reasonable context—inferences welcome when likely accurate.)",
     eventDescriptionJson,
     "",
     "## PREVIOUS_RESOURCES_ALREADY_SHOWN_OR_SAVED",
     dedupeHints,
     "",
     "## Produce",
-    "Return `resourceTypes`: one `{ name, resources }` per allowed type you investigated (omit allowed types with zero verifiable results). Every `name` must appear in ALLOWED_RESOURCE_TYPE_NAMES. Empty `resources` arrays and null optional fields are expected; never pad with invented data.",
+    "Return `resourceTypes` for allowed types that USER_INFORMATION reasonably supports. Omit types that are clearly off-topic. Every `name` must appear in ALLOWED_RESOURCE_TYPE_NAMES. Prefer verifiable rows; grounded educated guesses are acceptable. Use nulls or `0` budget when you lack even a decent basis.",
   ].join("\n");
 
   const schema = {

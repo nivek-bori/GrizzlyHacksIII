@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { ResourceType } from "@/lib/prisma/generated/prisma/client";
+import { EventDescription, ResourceType } from "@/lib/prisma/generated/prisma/client";
 import { useAuth } from "./auth/AuthProvider";
 import { supabase } from "@/lib/supabase/client";
 import { useNotification } from "./notification/NotificationProvider";
@@ -9,6 +9,7 @@ import { ResourceTypeGetResponse } from "@/app/api/resource_types/route";
 import { request } from "@/lib/util/api";
 import { Changes, type RelationalResourceType } from "@/types/types";
 import { ChangesPostResponse } from "@/app/api/changes/route";
+import { AIPostResponse } from "@/app/api/ai/route";
 
 export type ChangesRowAction = "add" | "change" | "delete";
 
@@ -37,9 +38,9 @@ export default function DataProviderComponent({ children }: { children: React.Re
   
   const { addNotification } = useNotification();
 
-  // RESOURCE TYPES
-
+  // Data
   const [resourceTypes, setResourceTypes] = useState<RelationalResourceType[] | null>(null);
+
   useEffect(() => {
     if (profile.loading || !profile.data) return;
 
@@ -47,10 +48,14 @@ export default function DataProviderComponent({ children }: { children: React.Re
       setCurrentProfileId(profile.data.id);
 
       loadResourceTypes();
-      const channel = setUpResourceTypesChannel(profile.data.id);
+      const resourceTypesChannel = setUpResourceTypesChannel(profile.data.id);
+      const eventDescriptionChannel = setUpEventDescriptionChannel(profile.data.id);
+      const resourceTypeChannel = setUpResourceTypeChannel(profile.data.id);
 
       return () => {
-        if (channel) supabase.removeChannel(channel);
+        if (resourceTypesChannel) supabase.removeChannel(resourceTypesChannel);
+        if (eventDescriptionChannel) supabase.removeChannel(eventDescriptionChannel);
+        if (resourceTypeChannel) supabase.removeChannel(resourceTypeChannel);
       };
     }
   }, [profile.data?.id, profile.loading]);
@@ -75,7 +80,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
   function setUpResourceTypesChannel(id: string) {
     if (profile.loading || !profile.data) return;
 
-    const channelName = `resource-types-${id}`;
+    const channelName = `resource-types-and-resources-${id}`;
 
     const channels = supabase.getChannels();
     let channel = channels.find((channel) => {
@@ -100,7 +105,90 @@ export default function DataProviderComponent({ children }: { children: React.Re
           }
         )
         .subscribe();
+    }
 
+    return channel;
+  }
+
+  function setUpEventDescriptionChannel(id: string) { 
+    if (profile.loading || !profile.data) return;
+
+    const channelName = `event-description-${id}`;
+
+    const channels = supabase.getChannels();
+    let channel = channels.find((channel) => {
+      return (channel.topic === channelName || channel.topic === `realtime:${channelName}`)
+    });
+    
+    if (channel === undefined) {
+      channel = supabase
+        .channel(channelName)
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "EventDescription" },
+          async (payload) => {
+            if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
+              const body = {
+                suggest_resource_types_data: true,
+                indentifier: payload.new?.id ? { id: payload.new?.id } : undefined,
+              };
+              const res = await request<AIPostResponse>({
+                type: 'POST',
+                route: '/api/ai',
+                body: body,
+              });
+
+              if (res.find_resources_data?.status === 'error') {
+                addNotification({ message: res.find_resources_data.message, type: 'error' });
+              } else {
+                addNotification({ message: 'Finished adding resources according to event description', type: 'success' });
+              }
+            }
+          }
+        )
+        .subscribe();
+    }
+
+    return channel;
+  }
+
+  function setUpResourceTypeChannel(id: string) {
+    if (profile.loading || !profile.data) return;
+
+    const channelName = `resource-type-${id}`;
+
+    const channels = supabase.getChannels();
+    let channel = channels.find((channel) => {
+      return (channel.topic === channelName || channel.topic === `realtime:${channelName}`)
+    });
+
+    if (channel === undefined) {
+      channel = supabase
+        .channel(channelName)
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "ResourceType" },
+          async (payload) => {
+            if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
+              const body = {
+                find_resources_data: {
+                  information: payload.new?.name ?? "",
+                  identifier: payload.new?.id ? { id: payload.new?.id } : undefined,
+                },
+              };
+              const res = await request<AIPostResponse>({
+                type: 'POST',
+                route: '/api/ai',
+                body: body,
+              });
+              
+              if (res.find_resources_data?.status === 'error') {
+                addNotification({ message: res.find_resources_data.message, type: 'error' });
+              }
+            }
+          }
+        )
+        .subscribe();
     }
 
     return channel;
@@ -245,7 +333,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
     if (updateStatus !== "loading" && Object.keys(changes).length > 0) {
       updateDatabaseTimeoutRef.current = setTimeout(() => {
         updateDatabase();
-      }, 1000); // TODO set to 5000
+      }, 5000);
     }
 
     return () => {

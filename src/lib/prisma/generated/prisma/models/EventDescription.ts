@@ -36,29 +36,29 @@ export type EventDescriptionSumAggregateOutputType = {
 
 export type EventDescriptionMinAggregateOutputType = {
   id: string | null
-  profileId: string | null
   location: string | null
   time: Date | null
   budget: number | null
   extraNotes: string | null
+  profileId: string | null
 }
 
 export type EventDescriptionMaxAggregateOutputType = {
   id: string | null
-  profileId: string | null
   location: string | null
   time: Date | null
   budget: number | null
   extraNotes: string | null
+  profileId: string | null
 }
 
 export type EventDescriptionCountAggregateOutputType = {
   id: number
-  profileId: number
   location: number
   time: number
   budget: number
   extraNotes: number
+  profileId: number
   _all: number
 }
 
@@ -73,29 +73,29 @@ export type EventDescriptionSumAggregateInputType = {
 
 export type EventDescriptionMinAggregateInputType = {
   id?: true
-  profileId?: true
   location?: true
   time?: true
   budget?: true
   extraNotes?: true
+  profileId?: true
 }
 
 export type EventDescriptionMaxAggregateInputType = {
   id?: true
-  profileId?: true
   location?: true
   time?: true
   budget?: true
   extraNotes?: true
+  profileId?: true
 }
 
 export type EventDescriptionCountAggregateInputType = {
   id?: true
-  profileId?: true
   location?: true
   time?: true
   budget?: true
   extraNotes?: true
+  profileId?: true
   _all?: true
 }
 
@@ -187,11 +187,11 @@ export type EventDescriptionGroupByArgs<ExtArgs extends runtime.Types.Extensions
 
 export type EventDescriptionGroupByOutputType = {
   id: string
-  profileId: string
   location: string | null
   time: Date | null
   budget: number | null
   extraNotes: string
+  profileId: string
   _count: EventDescriptionCountAggregateOutputType | null
   _avg: EventDescriptionAvgAggregateOutputType | null
   _sum: EventDescriptionSumAggregateOutputType | null
@@ -219,21 +219,21 @@ export type EventDescriptionWhereInput = {
   OR?: Prisma.EventDescriptionWhereInput[]
   NOT?: Prisma.EventDescriptionWhereInput | Prisma.EventDescriptionWhereInput[]
   id?: Prisma.StringFilter<"EventDescription"> | string
-  profileId?: Prisma.StringFilter<"EventDescription"> | string
   location?: Prisma.StringNullableFilter<"EventDescription"> | string | null
   time?: Prisma.DateTimeNullableFilter<"EventDescription"> | Date | string | null
   budget?: Prisma.FloatNullableFilter<"EventDescription"> | number | null
   extraNotes?: Prisma.StringFilter<"EventDescription"> | string
+  profileId?: Prisma.StringFilter<"EventDescription"> | string
   profile?: Prisma.XOR<Prisma.ProfileScalarRelationFilter, Prisma.ProfileWhereInput>
 }
 
 export type EventDescriptionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
   budget?: Prisma.SortOrderInput | Prisma.SortOrder
   extraNotes?: Prisma.SortOrder
+  profileId?: Prisma.SortOrder
   profile?: Prisma.ProfileOrderByWithRelationInput
 }
 
@@ -252,11 +252,11 @@ export type EventDescriptionWhereUniqueInput = Prisma.AtLeast<{
 
 export type EventDescriptionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
   budget?: Prisma.SortOrderInput | Prisma.SortOrder
   extraNotes?: Prisma.SortOrder
+  profileId?: Prisma.SortOrder
   _count?: Prisma.EventDescriptionCountOrderByAggregateInput
   _avg?: Prisma.EventDescriptionAvgOrderByAggregateInput
   _max?: Prisma.EventDescriptionMaxOrderByAggregateInput
@@ -269,11 +269,11 @@ export type EventDescriptionScalarWhereWithAggregatesInput = {
   OR?: Prisma.EventDescriptionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EventDescriptionScalarWhereWithAggregatesInput | Prisma.EventDescriptionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"EventDescription"> | string
-  profileId?: Prisma.StringWithAggregatesFilter<"EventDescription"> | string
   location?: Prisma.StringNullableWithAggregatesFilter<"EventDescription"> | string | null
   time?: Prisma.DateTimeNullableWithAggregatesFilter<"EventDescription"> | Date | string | null
   budget?: Prisma.FloatNullableWithAggregatesFilter<"EventDescription"> | number | null
   extraNotes?: Prisma.StringWithAggregatesFilter<"EventDescription"> | string
+  profileId?: Prisma.StringWithAggregatesFilter<"EventDescription"> | string
 }
 
 export type EventDescriptionCreateInput = {
@@ -287,11 +287,11 @@ export type EventDescriptionCreateInput = {
 
 export type EventDescriptionUncheckedCreateInput = {
   id?: string
-  profileId: string
   location?: string | null
   time?: Date | string | null
   budget?: number | null
   extraNotes: string
+  profileId: string
 }
 
 export type EventDescriptionUpdateInput = {
@@ -305,20 +305,20 @@ export type EventDescriptionUpdateInput = {
 
 export type EventDescriptionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  profileId?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   extraNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  profileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventDescriptionCreateManyInput = {
   id?: string
-  profileId: string
   location?: string | null
   time?: Date | string | null
   budget?: number | null
   extraNotes: string
+  profileId: string
 }
 
 export type EventDescriptionUpdateManyMutationInput = {
@@ -331,11 +331,11 @@ export type EventDescriptionUpdateManyMutationInput = {
 
 export type EventDescriptionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  profileId?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   extraNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  profileId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventDescriptionNullableScalarRelationFilter = {
@@ -345,11 +345,11 @@ export type EventDescriptionNullableScalarRelationFilter = {
 
 export type EventDescriptionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   extraNotes?: Prisma.SortOrder
+  profileId?: Prisma.SortOrder
 }
 
 export type EventDescriptionAvgOrderByAggregateInput = {
@@ -358,20 +358,20 @@ export type EventDescriptionAvgOrderByAggregateInput = {
 
 export type EventDescriptionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   extraNotes?: Prisma.SortOrder
+  profileId?: Prisma.SortOrder
 }
 
 export type EventDescriptionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  profileId?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   extraNotes?: Prisma.SortOrder
+  profileId?: Prisma.SortOrder
 }
 
 export type EventDescriptionSumOrderByAggregateInput = {
@@ -470,44 +470,44 @@ export type EventDescriptionUncheckedUpdateWithoutProfileInput = {
 
 export type EventDescriptionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  profileId?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   extraNotes?: boolean
+  profileId?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventDescription"]>
 
 export type EventDescriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  profileId?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   extraNotes?: boolean
+  profileId?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventDescription"]>
 
 export type EventDescriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  profileId?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   extraNotes?: boolean
+  profileId?: boolean
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventDescription"]>
 
 export type EventDescriptionSelectScalar = {
   id?: boolean
-  profileId?: boolean
   location?: boolean
   time?: boolean
   budget?: boolean
   extraNotes?: boolean
+  profileId?: boolean
 }
 
-export type EventDescriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "profileId" | "location" | "time" | "budget" | "extraNotes", ExtArgs["result"]["eventDescription"]>
+export type EventDescriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "location" | "time" | "budget" | "extraNotes" | "profileId", ExtArgs["result"]["eventDescription"]>
 export type EventDescriptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profile?: boolean | Prisma.ProfileDefaultArgs<ExtArgs>
 }
@@ -525,11 +525,11 @@ export type $EventDescriptionPayload<ExtArgs extends runtime.Types.Extensions.In
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    profileId: string
     location: string | null
     time: Date | null
     budget: number | null
     extraNotes: string
+    profileId: string
   }, ExtArgs["result"]["eventDescription"]>
   composites: {}
 }
@@ -955,11 +955,11 @@ export interface Prisma__EventDescriptionClient<T, Null = never, ExtArgs extends
  */
 export interface EventDescriptionFieldRefs {
   readonly id: Prisma.FieldRef<"EventDescription", 'String'>
-  readonly profileId: Prisma.FieldRef<"EventDescription", 'String'>
   readonly location: Prisma.FieldRef<"EventDescription", 'String'>
   readonly time: Prisma.FieldRef<"EventDescription", 'DateTime'>
   readonly budget: Prisma.FieldRef<"EventDescription", 'Float'>
   readonly extraNotes: Prisma.FieldRef<"EventDescription", 'String'>
+  readonly profileId: Prisma.FieldRef<"EventDescription", 'String'>
 }
     
 

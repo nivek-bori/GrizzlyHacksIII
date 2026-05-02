@@ -23,6 +23,7 @@ const resourceTypeSelect = {
     select: {
       id: true,
       resourceTypeId: true,
+      profileId: true,
       name: true,
       location: true,
       time: true,

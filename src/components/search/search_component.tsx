@@ -57,7 +57,7 @@ export default function SearchComponent() {
   }
 
   return (
-    <div className="max-h-full w-full overflow-y-auto py-12 px-8">
+    <div className="max-h-full w-full overflow-y-auto py-12 px-8 mb-10" style={{ scrollbarWidth: "none" }}>
       <h1 className="mb-7 text-4xl font-extrabold">Search for Resources</h1>
       <div className="mb-4 text-[1.55rem] font-bold">Find a specific resource:</div>
       <div className="flex flex-row items-center gap-x-4">

@@ -16,23 +16,23 @@ model Resource {
   url            String?
   status         ResourceStatus
   profileId      String
-  profile        Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile        Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
   resourceTypeId String
   resourceType   ResourceType   @relation(fields: [resourceTypeId], references: [id], onDelete: Cascade)
 }
 
 model ResourceType {
-  id        String     @id @default(uuid())
+  id        String      @id @default(uuid())
   name      String
   profileId String
-  profile   Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile   Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
   resources Resource[]
 }
 
 model Profile {
-  id               String         @id @default(uuid())
-  role             Role           @default(ADMIN)
-  email            String         @unique
+  id               String             @id @default(uuid())
+  role             Role               @default(ADMIN)
+  email            String             @unique
   name             String?
   eventDescription EventDescription?
   resourceTypes    ResourceType[]
@@ -40,13 +40,13 @@ model Profile {
 }
 
 model EventDescription {
-  id         String    @id @default(uuid())
-  profileId  String    @unique
+  id         String     @id @default(uuid())
   location   String?
   time       DateTime?
   budget     Float?
   extraNotes String
-  profile    Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId  String     @unique
+  profile    Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

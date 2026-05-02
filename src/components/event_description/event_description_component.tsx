@@ -163,7 +163,7 @@ export default function EventDescriptionComponent() {
 
         <div>
           <label htmlFor="event-extra-notes" className="mb-1 block text-[0.95rem] font-medium text-gray-800">
-            Additional notes
+            Additional Information
           </label>
           <textarea
             id="event-extra-notes"
@@ -182,7 +182,7 @@ export default function EventDescriptionComponent() {
             disabled={disabled || saving}
             className="rounded-xl border-[0.12rem] border-gray-600 bg-gray-800 px-4 py-3 text-[1rem] text-white disabled:opacity-50"
           >
-            {saving ? "Saving…" : "Save"}
+            {saving ? "Saving & Running AI" : "Save & Trigger AI"}
           </button>
           <button
             type="button"

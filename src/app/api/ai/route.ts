@@ -6,10 +6,12 @@ import { DefaultAPIResponse, verifyBody } from "../../../lib/util/api";
 import { saveResourceTypes, suggestResourceTypes } from "./suggest_resource_type";
 import { findResources, saveResources } from "./find_resource";
 import prisma from "@/lib/prisma/prisma";
-import type { Prisma } from "@/lib/prisma/generated/prisma/client";
+import type { Prisma, ResourceType } from "@/lib/prisma/generated/prisma/client";
 
 export type AIPostRequest = {
-  suggest_resource_types_data?: boolean;
+  suggest_resource_types_data?: {
+
+  };
   find_resources_data?: {
     information: string;
   };
@@ -90,7 +92,6 @@ export async function POST(request: Request) {
     );
   }
 }
-
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 

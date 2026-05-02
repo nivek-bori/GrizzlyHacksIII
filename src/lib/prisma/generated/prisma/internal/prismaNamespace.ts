@@ -778,11 +778,11 @@ export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeo
 
 export const EventDescriptionScalarFieldEnum = {
   id: 'id',
-  profileId: 'profileId',
   location: 'location',
   time: 'time',
   budget: 'budget',
-  extraNotes: 'extraNotes'
+  extraNotes: 'extraNotes',
+  profileId: 'profileId'
 } as const
 
 export type EventDescriptionScalarFieldEnum = (typeof EventDescriptionScalarFieldEnum)[keyof typeof EventDescriptionScalarFieldEnum]

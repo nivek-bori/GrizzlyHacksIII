@@ -10,7 +10,7 @@ export default function TodolistComponent() {
   const { resourceTypes } = useData();
 
   return (
-    <div className='w-full h-full py-12 px-8'>
+    <div className='w-full min-h-full py-12 px-8 pb-18 overflow-y-auto' style={{ scrollbarWidth: "none" }}>
       <h1 className='mb-7 text-4xl font-extrabold'>Todo List</h1>
 
       <AddResourceTypeSection />

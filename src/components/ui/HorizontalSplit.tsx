@@ -14,12 +14,12 @@ export default function ScreenHorizontalSplit({ left, right, mode = "fixed" }: H
 
   const leftClass =
     mode === "fixed"
-      ? "absolute inset-y-0 z-10 flex w-1/2 min-h-0 flex-col overflow-y-auto"
+      ? "absolute inset-y-0 z-10 flex w-1/2 min-h-0 flex-col"
       : "min-w-0";
 
   const rightClass =
     mode === "fixed"
-      ? "absolute inset-y-0 right-0 z-0 flex w-1/2 min-h-0 flex-col overflow-y-auto"
+      ? "absolute inset-y-0 right-0 z-0 flex w-1/2 min-h-0 flex-col"
       : "min-w-0";
 
   return (

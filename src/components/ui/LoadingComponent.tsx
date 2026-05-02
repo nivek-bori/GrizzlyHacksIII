@@ -24,7 +24,7 @@ export default function LoadingComponent({
         className="h-8 w-8 rounded-full border-[3px] border-neutral-300 border-t-neutral-800 animate-spin"
         aria-hidden
       />
-      {label ? (
+      {(label && label.length > 0) ? (
         <p className="text-sm font-medium tracking-wide text-neutral-600">{label}</p>
       ) : null}
     </div>

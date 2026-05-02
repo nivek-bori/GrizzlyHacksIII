@@ -1,5 +1,8 @@
 Kevin:
+  ▫ add AI timeout
   ▫ figure out how to make ai time more waitable
+    ▫ add a AI loading field to each data table
+  ▫ make notification look better
 
 Backend:
   ▫ API
