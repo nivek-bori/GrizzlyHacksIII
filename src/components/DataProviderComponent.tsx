@@ -170,6 +170,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
           { event: "*", schema: "public", table: "ResourceType" },
           async (payload) => {
             if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
+              console.log(`testing, resource type event`, payload);
               const body = {
                 find_resources_data: {
                   information: payload.new?.name ?? "",
