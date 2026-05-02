@@ -85,7 +85,7 @@ export default function AuthComponent({ defaultFormState = 'signin' }: { default
       }
 
       // Ensure db profile exists
-      let body: ProfilePostRequest = {
+      const body: ProfilePostRequest = {
         userId: signup_data.user.id,
         email: email,
         name: name || email.split('@')[1] || 'user',

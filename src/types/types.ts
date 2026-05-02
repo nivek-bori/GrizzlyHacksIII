@@ -1,4 +1,4 @@
-import { Resource, ResourceStatus, ResourceType } from "@/lib/prisma/generated/prisma/client";
+import { Resource, ResourceType } from "@/lib/prisma/generated/prisma/client";
 
 export function cn(...classes: Array<string | false | null | undefined>): string {
   return classes.filter(Boolean).join(' ');

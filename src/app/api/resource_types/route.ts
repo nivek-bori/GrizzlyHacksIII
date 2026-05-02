@@ -15,6 +15,24 @@ type ResourceTypeGetFullRequest = {
   userId: string;
 }
 
+const resourceTypeSelect = {
+  id: true,
+  name: true,
+  profileId: true,
+  resources: {
+    select: {
+      id: true,
+      resourceTypeId: true,
+      name: true,
+      location: true,
+      time: true,
+      budget: true,
+      url: true,
+      status: true,
+    },
+  },
+} as const;
+
 export async function GET(request: Request) {
   try {
     // User
@@ -37,23 +55,7 @@ export async function GET(request: Request) {
       },
       select: {
         resourceTypes: {
-          select: {
-            id: true,
-            name: true,
-            profileId: true,
-            resources: {
-              select: {
-                id: true,
-                resourceTypeId: true,
-                name: true,
-                location: true,
-                time: true,
-                budget: true,
-                url: true,
-                status: true,
-              },
-            },
-          },
+          select: resourceTypeSelect,
         },
       },
     });

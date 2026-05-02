@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
 import prisma from '@/lib/prisma/prisma';
 import { DefaultAPIResponse, verifyBody } from '@/lib/util/api';
-import { getUserServer, parseError } from "@/lib/util/server_util";
+import { parseError } from "@/lib/util/server_util";
 import { Profile } from '@/lib/prisma/generated/prisma/client';
 
 type ProfileGetRequestFull = {
@@ -75,7 +74,7 @@ export async function POST(request: Request) {
   const { userId, email, name } = props;
 
   try {
-    let createQuery: any = {
+    const createQuery: any = {
         email: email,
         name: name,
         role: 'USER'

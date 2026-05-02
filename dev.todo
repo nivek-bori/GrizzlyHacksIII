@@ -1,4 +1,7 @@
-▫ change standard rem value to be a little larger
+Kevin:
+  ▫ check if add resource type code works
+  ▫ write & connect ai frontend
+  ▫ change standard rem value to be a little larger
 
 Backend:
   ▫ API
@@ -28,12 +31,12 @@ Code that needs to be completed:
       ✔ potential_resource_component @done(26-04-26 19:17)
         ✔ display information @done(26-04-26 21:05)
         ✔ allow user to select: potential, chosen, or bought @done(26-04-26 21:05)
-        ▫ allow user to delete resource
-        ▫ additional information field
+        ▫ allow user to delete resource @testing
+        ▫ additional information field @additional
     ▫ resource_list_component (bottom right)
       ▫ resource_component/
-        ▫ display resource information
-        ▫ have bookmark button & call this function onClick
+        ✔ display resource information @done(26-05-01 19:19)
+        ▫ have bookmark button & call this function onClick @started(26-05-01 19:19)
       ▫ resource_search_component:allow people to search resoruce by name using ai
         ▫ andy has the code for this in this AI API
         

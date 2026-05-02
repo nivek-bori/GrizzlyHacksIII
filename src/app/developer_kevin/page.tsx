@@ -7,25 +7,25 @@ import SearchComponent from "@/components/search/search_component";
 
 export default function DeveloperKevinPage() {
   const { resourceTypes } = useData();
-  
-  console.log(`resourceTypes`, resourceTypes);  
-  
+
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center'>
-      <HorizontalSplit
-        left={
-          <>
-            {!resourceTypes && <div>loading sources...</div>}
-            {resourceTypes && <TodolistComponent resourceTypes={resourceTypes} />}
-          </>
-        }
-        right={
-          <>
-            {!resourceTypes && <div>loading resources...</div>}
-            {resourceTypes && <SearchComponent resourceTypes={resourceTypes} />}
-          </>
-        }
-      />
+    <div className='w-full h-full flex items-center justify-center'>
+      <div className='grow-0 max-w-[80rem] w-full h-full flex flex-col items-center justify-center'>
+        <HorizontalSplit
+          left={
+            <>
+              {!resourceTypes && <div>loading sources...</div>}
+              {resourceTypes && <TodolistComponent />}
+            </>
+          }
+          right={
+            <>
+              {!resourceTypes && <div>loading resources...</div>}
+              {resourceTypes && <SearchComponent />}
+            </>
+          }
+        />
+      </div>
     </div>
   );
 }

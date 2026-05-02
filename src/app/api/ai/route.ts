@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { getUserServer, parseError } from "@/lib/util/server_util";
 import { DefaultAPIResponse, verifyBody } from "../../../lib/util/api";
 import prisma from "@/lib/prisma/prisma";
-import type { EventDescription, Profile, Resource } from "@/lib/prisma/generated/prisma/client";
 
 export type AIPostRequest = {
   suggest_resource_types?: SuggestResourceTypesRequest;

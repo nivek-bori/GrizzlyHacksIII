@@ -7,15 +7,18 @@ import { supabase } from "@/lib/supabase/client";
 import { useNotification } from "./notification/NotificationProvider";
 import { ResourceTypeGetResponse } from "@/app/api/resource_types/route";
 import { request } from "@/lib/util/api";
-import { Changes } from "@/types/types";
+import { Changes, type RelationalResourceType } from "@/types/types";
 import { ChangesPostResponse } from "@/app/api/changes/route";
+
+export type ChangesRowAction = "add" | "change" | "delete";
 
 type DataContextType = {
   resourceTypes: ResourceType[] | null;
   changes: Changes;
   handleChange: (table: string, id: string, data: any) => void;
+  handleAdd: (table: string, id: string, data: any) => void;
+  handleDelete: (table: string, id: string) => void;
   updateDatabase: () => Promise<void>;
-  reloadResourceTypes: () => Promise<void>;
 };
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -36,7 +39,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
 
   // RESOURCE TYPES
 
-  const [resourceTypes, setResourceTypes] = useState<ResourceType[] | null>(null);
+  const [resourceTypes, setResourceTypes] = useState<RelationalResourceType[] | null>(null);
   useEffect(() => {
     if (profile.loading || !profile.data) return;
 
@@ -44,7 +47,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
       setCurrentProfileId(profile.data.id);
 
       loadResourceTypes();
-      const channel = setupResourceTypesChannel(profile.data.id);
+      const channel = setUpResourceTypesChannel(profile.data.id);
 
       return () => {
         if (channel) supabase.removeChannel(channel);
@@ -69,7 +72,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
     }
   }
 
-  function setupResourceTypesChannel(id: string) {
+  function setUpResourceTypesChannel(id: string) {
     if (profile.loading || !profile.data) return;
 
     const channelName = `resource-types-${id}`;
@@ -84,12 +87,20 @@ export default function DataProviderComponent({ children }: { children: React.Re
         .channel(channelName)
         .on(
           "postgres_changes",
-          { event: "*", schema: "public", table: "resource_types" },
-          () => {
+          { event: "*", schema: "public", table: "ResourceType" },
+          (payload) => {
+            loadResourceTypes();
+          }
+        )
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "Resource" },
+          (payload) => {
             loadResourceTypes();
           }
         )
         .subscribe();
+
     }
 
     return channel;
@@ -99,16 +110,96 @@ export default function DataProviderComponent({ children }: { children: React.Re
   const [changes, setChanges] = useState<Changes>({});
 
   function handleChange(table: string, id: string, data: any) {
+    setChanges(prev => {
+      const prevRow = prev[table]?.[id];
+      const action: ChangesRowAction = prevRow?._action === "add" ? "add" : (prevRow?._action ?? "change");
+      return {
+        ...prev,
+        [table]: {
+          ...prev[table],
+          [id]: {
+            ...prevRow,
+            ...data,
+            _action: action,
+          },
+        },
+      };
+    });
+
+    if (data == null || typeof data !== "object") return;
+
+    if (table === "resource_types") {
+      setResourceTypes(prev =>
+        prev?.map(rt => (rt.id === id ? { ...rt, ...data } : rt)) ?? prev
+      );
+      return;
+    }
+
+    if (table === "resources") {
+      setResourceTypes(prev =>
+        prev
+          ? prev.map(rt => ({
+              ...rt,
+              resources: (rt.resources ?? []).map(r =>
+                r.id === id ? { ...r, ...data } : r
+              ),
+            }))
+          : prev
+      );
+    }
+  }
+
+  function handleAdd(table: string, id: string, data: any) {
     setChanges(prev => ({
       ...prev,
       [table]: {
         ...prev[table],
         [id]: {
-          ...prev[table]?.[id],
           ...data,
+          _action: "add",
         },
-      }
+      },
     }));
+
+    if (table !== "resource_types") return;
+
+    setResourceTypes(prev => {
+      const row: RelationalResourceType = {
+        id,
+        name: typeof data?.name === "string" ? data.name : "",
+        profileId: typeof data?.profileId === "string" ? data.profileId : "",
+        resources: [],
+      };
+      if (!prev) return [row];
+      if (prev.some(r => r.id === id)) return prev;
+      return [...prev, row];
+    });
+  }
+
+  function handleDelete(table: string, id: string) {
+    setChanges(prev => ({
+      ...prev,
+      [table]: {
+        ...prev[table],
+        [id]: { _action: "delete" },
+      },
+    }));
+
+    if (table === "resource_types") {
+      setResourceTypes(prev => (prev ? prev.filter(r => r.id !== id) : prev));
+      return;
+    }
+
+    if (table === "resources") {
+      setResourceTypes(prev =>
+        prev
+          ? prev.map(resourceType => ({
+            ...resourceType,
+            resources: (resourceType.resources ?? []).filter(resource => resource.id !== id),
+          }))
+          : prev
+      );
+    }
   }
 
   async function updateDatabase() {
@@ -154,7 +245,7 @@ export default function DataProviderComponent({ children }: { children: React.Re
     if (updateStatus !== "loading" && Object.keys(changes).length > 0) {
       updateDatabaseTimeoutRef.current = setTimeout(() => {
         updateDatabase();
-      }, 5000);
+      }, 1000); // TODO set to 5000
     }
 
     return () => {
@@ -170,8 +261,9 @@ export default function DataProviderComponent({ children }: { children: React.Re
       resourceTypes,
       changes,
       handleChange,
+      handleAdd,
+      handleDelete,
       updateDatabase,
-      reloadResourceTypes: loadResourceTypes,
     }),
     [resourceTypes, changes]
   );
