@@ -92,7 +92,7 @@ function DescriptionComponent({ fields, values, onChange, className = '' }: {
 }) {
   return (
     <div className={className}>
-      {fields.map((field) => (
+      {fields.filter((field) => field.key !== "time").map((field) => (
         <div key={field.key} className="mb-1">
           <span className="font-semibold">{field.label} </span>
           <input

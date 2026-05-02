@@ -81,6 +81,7 @@ export const ResourceScalarFieldEnum = {
   budget: 'budget',
   url: 'url',
   status: 'status',
+  profileId: 'profileId',
   resourceTypeId: 'resourceTypeId'
 } as const
 

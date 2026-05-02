@@ -14,7 +14,7 @@ export default function TodolistComponent() {
       <h1 className='mb-7 text-4xl font-extrabold'>Todo List</h1>
 
       <AddResourceTypeSection />
-      {resourceTypes && resourceTypes.length > 0 && <div className='my-[1.5rem] w-full h-0 border-t-[2px] border-gray-400'></div>}
+      {resourceTypes && resourceTypes.length > 0 && <div className='my-[1.7rem] w-full h-0 border-t-[2px] border-gray-400'></div>}
 
       <div>
         {!resourceTypes && <LoadingComponent />}
@@ -56,7 +56,7 @@ function AddResourceTypeSection() {
 
   return (
     <div>
-      <div className='mb-4 text-[1.4rem] font-bold'>Add a new resource type:</div>
+      <div className='mb-4 text-[1.55rem] font-bold'>Add a new resource type:</div>
       <div className='flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center'>
         <label htmlFor="new-resource-type-name" className="sr-only">
           New resource type name

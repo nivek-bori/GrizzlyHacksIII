@@ -7,8 +7,7 @@ import SearchComponent from "@/components/search/search_component";
 import EventDescriptionComponent from "@/components/event_description/event_description_component";
 import CTAComponent from "@/components/cta/CTA_component";
 
-export default function DeveloperKevinPage() {
-  const { resourceTypes } = useData();
+export default function DeveloperZanePage() {
 
   return (
     <div className='w-full h-full flex items-center justify-center'>
@@ -16,14 +15,12 @@ export default function DeveloperKevinPage() {
         <HorizontalSplit
           left={
             <>
-              {/* <CTAComponent></CTAComponent> */}
+              <CTAComponent />
             </>
           }
           right={
             <>
               <EventDescriptionComponent />
-              {/* {!resourceTypes && <div>loading resources...</div>}
-              {resourceTypes && <SearchComponent />} */}
             </>
           }
         />

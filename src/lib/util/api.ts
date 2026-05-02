@@ -15,7 +15,7 @@ type RequestProps = {
 export async function request<T>({ type, route, body }: RequestProps): Promise<T> {
   try {
     const controller = new AbortController();
-    setTimeout(() => controller.abort(), 1000 * 60);
+    setTimeout(() => controller.abort(), 1000 * 120);
 
     switch (type) {
       case 'GET': {

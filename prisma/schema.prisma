@@ -15,6 +15,8 @@ model Resource {
   budget         Float
   url            String?
   status         ResourceStatus
+  profileId      String
+  profile        Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   resourceTypeId String
   resourceType   ResourceType   @relation(fields: [resourceTypeId], references: [id], onDelete: Cascade)
 }
@@ -34,6 +36,7 @@ model Profile {
   name             String?
   eventDescription EventDescription?
   resourceTypes    ResourceType[]
+  resources        Resource[]
 }
 
 model EventDescription {

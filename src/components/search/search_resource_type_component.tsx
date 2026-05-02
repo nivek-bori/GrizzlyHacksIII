@@ -1,9 +1,42 @@
+'use client';
+
 import { RelationalResourceType } from "@/types/types";
 import SearchResourceComponent from "./search_resource_component";
 import { ResourceStatus } from "@/lib/prisma/generated/prisma/browser";
+import { useState } from "react";
+import { AIPostResponse } from "@/app/api/ai/route";
+import { request } from "@/lib/util/api";
+import { useNotification } from "../notification/NotificationProvider";
 
 export default function SearchResourceTypeComponent({ resourceType }: { resourceType: RelationalResourceType }) {
+  const { addNotification } = useNotification();
+  
   const validResource = resourceType.resources ? resourceType.resources.filter(resource => resource.status === ResourceStatus.SUGGESTED) : null;
+
+  const [disabled, setDisabled] = useState(false);
+
+  const handleSearchMore = async () => {
+    if (disabled) return;
+
+    setDisabled(true);
+
+    const body = {
+      find_resources_data: {
+        information: resourceType.name,
+      },
+    };
+    const res = await request<AIPostResponse>({
+      type: 'POST',
+      route: '/api/ai',
+      body: body,
+    });
+
+    if (res.find_resources_data?.status === 'error') {
+      addNotification({ message: res.find_resources_data.message, type: 'error' });
+    }
+
+    setDisabled(false);
+  }
   
   return <div>
     <h2 className='mb-[0.4rem] text-[1.7rem] font-bold'>{resourceType.name}:</h2>
@@ -17,8 +50,16 @@ export default function SearchResourceTypeComponent({ resourceType }: { resource
           <SearchResourceComponent resource={resource} />
         </div>
       ))}
-      {(!validResource || validResource.length === 0) && <div>No resources found</div>}
-      {/* TODO: add button to search for more */}
+      {(!validResource || validResource.length === 0) && (
+        <button
+          onClick={handleSearchMore}
+          disabled={disabled}
+          className='underline text-gray-600 hover:text-gray-500 disabled:text-gray-400 disabled:cursor-not-allowed'
+        >
+          No more resources. Search for more?
+        </button>
+   
+      )}
     </div>
   </div>;
 }

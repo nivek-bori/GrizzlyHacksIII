@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma/prisma';
 import { DefaultAPIResponse, verifyBody } from '@/lib/util/api';
-import { parseError } from "@/lib/util/server_util";
+import { getUserServer, parseError } from "@/lib/util/server_util";
 import { Profile } from '@/lib/prisma/generated/prisma/client';
 
 type ProfileGetRequestFull = {
@@ -14,9 +14,11 @@ export type ProfileGetResponse = DefaultAPIResponse & {
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
+
+    const { user, response } = await getUserServer(request);
+    if (response) return response;
     
-    const props: ProfileGetRequestFull = { userId: searchParams.get('id') ?? '' };
+    const props: ProfileGetRequestFull = { userId: user.id };
     const props_error = verifyBody<ProfileGetRequestFull>(props, 'api/profile get');
     if (props_error) return props_error;
 
@@ -31,6 +33,7 @@ export async function GET(request: Request) {
         name: true,
         email: true,
         role: true,
+        eventDescription: true,
       }
     });
 

@@ -34,3 +34,25 @@ export type RelationalResourceType = ResourceType & {
 export type VisibleResourceStatus = 'POTENTIAL' | 'CHOSEN' | 'BOUGHT';
 
 export type Changes = Record<string, Record<string, any>>;
+
+// AI
+export type FindResourcesAiItem = {
+  name: string;
+  location: string | null;
+  time: string | null;
+  budget: number;
+  url: string | null;
+};
+
+export type FindResourcesAiGroup = {
+  name: string;
+  resources: FindResourcesAiItem[];
+};
+
+export type FindResourcesAiResponse = {
+  resourceTypes: FindResourcesAiGroup[];
+};
+
+export type SuggestResourceTypesAiResponse = {
+  resourceTypes: string[];
+};

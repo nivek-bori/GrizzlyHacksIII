@@ -74,12 +74,12 @@ function StatusSelectorComponent({ resource }: { resource: Resource }) {
 }
 
 function DeleteButtonComponent({ resource }: { resource: Resource }) {
-  const { handleDelete } = useData();
-  const onDelete = () => {
-    handleDelete("resources", resource.id);
+  const { handleChange } = useData();
+  const onSuggested = () => {
+    handleChange("resources", resource.id, { status: ResourceStatus.SUGGESTED });
   };
   return (
-    <button className={`rounded-full ${bg_red} aspect-square flex items-center justify-center`} onClick={onDelete}>
+    <button className={`rounded-full ${bg_red} aspect-square flex items-center justify-center`} onClick={onSuggested}>
       <Trash className='aspect-square h-[65%] ml-[5%]' strokeWidth={2} />
     </button>
   )

@@ -6,16 +6,21 @@ import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
 import axios from 'axios';
 import { parseError } from "@/lib/util/server_util";
-import { Profile } from '@/lib/prisma/generated/prisma/client';
+import { EventDescription, Profile } from '@/lib/prisma/generated/prisma/client';
 import { Role } from '@/types/types';
+
+type ProfileWithEventDescription = Profile & {
+  eventDescription: EventDescription | null;
+};
 
 interface AuthContextType {
   user: { data: User | null; loading: boolean };
-  profile: { data: Profile | null; loading: boolean };
+  profile: { data: ProfileWithEventDescription | null; loading: boolean };
   session: { data: Session | null; loading: boolean };
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
   getUser: () => Promise<User | null>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,7 +40,7 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, setAuthState] = useState<{
     user: { data: User | null, loading: boolean },
-    profile: { data: Profile | null; loading: boolean },
+    profile: { data: ProfileWithEventDescription | null; loading: boolean },
     session: { data: Session | null; loading: boolean },
   }>({
     user: { data: null, loading: true },
@@ -49,14 +54,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     try {
-      const res = await axios.get(`/api/profile?id=${currSession.user.id}`, {
+      const res = await axios.get(`/api/profile`, {
         validateStatus: () => true,
         withCredentials: true,
         headers: { Authorization: `Bearer ${currSession?.access_token}` },
       });
 
       if (res.data && res.data.profile) {
-        return res.data.profile
+        return res.data.profile as ProfileWithEventDescription;
       } else {
         return null;
       }
@@ -109,7 +114,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return 'GUEST';
     }
     return authState.profile.data.role as Role;
-  }
+  };
+
+  const refreshProfile = useCallback(async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user?.id) return;
+    const newProfile = await fetchProfile(session);
+    setAuthState((prev) => ({
+      ...prev,
+      profile: { data: newProfile, loading: false },
+    }));
+  }, [fetchProfile]);
 
   // AuthState initalization & 
   useEffect(() => {
@@ -218,7 +233,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signIn,
     signOut,
     getUser,
-  }), [authState]);
+    refreshProfile,
+  }), [authState, refreshProfile]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

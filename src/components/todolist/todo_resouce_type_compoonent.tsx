@@ -44,7 +44,7 @@ export default function TodoResourceTypeComponent({ resourceType }: { resourceTy
           <TodoResourceComponent resource={resource} />
         </div>
       ))}
-      {isOpen && (!validResources || validResources.length === 0) && <div>No resources found</div>}
+      {isOpen && (!validResources || validResources.length === 0) && <div>No resources boomarked yet</div>}
     </div>
   );
 }
